@@ -7,6 +7,8 @@ This application is intended for informational purposes only. Users are responsi
 ## Usage
 I've been using this app to find areas to scout for riding locations. Some of the tracks are gated or restricted to offroad vehicles. I've found that adding this KML file to my Garmin allows me to create a new layer and find when I'm nearby the locations. I would avoid relying on this map solely to ride trails or expect the trails to be maintained or having through access. 
 
+![image](https://github.com/stuy2005/advroads/assets/31675142/00682919-4f66-4129-96eb-85893b00a991)
+
 ## Contributing
 Contributions to the Unpaved Track Finder are welcome. Please feel free to fork the repository, make improvements, and submit pull requests.
 
