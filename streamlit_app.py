@@ -1,3 +1,5 @@
+# Copyright (C) 2024 Stuart Young
+
 import streamlit as st
 import overpy
 import simplekml
