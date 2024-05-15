@@ -1,4 +1,6 @@
-# Copyright (C) 2024 Stuart Young
+## License and Copyright
+## © 2023 Stuart Young. All rights reserved.
+## Unauthorized copying or re-distibution of this file, via any medium, is strictly prohibited.
 
 import streamlit as st
 import overpy
