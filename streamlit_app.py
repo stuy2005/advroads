@@ -105,10 +105,14 @@ def main():
         if roads:
             kml_filename = save_kml(roads.ways, min_length_miles, f"{county_select.replace(' ', '_').lower()}_roads.kml")
             st.download_button(label="Download KML", data=open(kml_filename, 'rb'), file_name=kml_filename)
+
+        # Copyright in footer
+    st.markdown("---")  # Optional: add a horizontal line for better separation
     st.markdown("""
-    © 2024 Stuart Young. All rights reserved.
-    Unauthorized use or distribution of this software is prohibited.
-""")
+    <div style="text-align: center; color: grey; margin-top: 50px;">
+        © 2024 Stuart Young. All rights reserved.
+    </div>
+    """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
