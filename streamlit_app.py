@@ -35,7 +35,7 @@ def fetch_counties(api, state_iso):
 
 def fetch_roads(api, area_id):
     """Fetch roads from a given area using area ID."""
-    adjusted_area_id = 3600000000 + area_id  # Add 3600000000 to the area ID
+    adjusted_area_id = 3600000000 + area_id  # Adjust area ID for OSM
     query = f"""
     [out:json][timeout:90];
     (
