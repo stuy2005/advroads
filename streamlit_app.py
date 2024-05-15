@@ -1,5 +1,5 @@
 ## License and Copyright
-## © 2023 Stuart Young. All rights reserved.
+## © 2024 Stuart Young. All rights reserved.
 ## Unauthorized copying or re-distibution of this file, via any medium, is strictly prohibited.
 
 import streamlit as st
@@ -105,6 +105,11 @@ def main():
         if roads:
             kml_filename = save_kml(roads.ways, min_length_miles, f"{county_select.replace(' ', '_').lower()}_roads.kml")
             st.download_button(label="Download KML", data=open(kml_filename, 'rb'), file_name=kml_filename)
+    st.markdown("""
+    © 2024 Stuart Young. All rights reserved.
+    Unauthorized use or distribution of this software is prohibited.
+""")
+
 
 if __name__ == "__main__":
     main()
