@@ -70,12 +70,12 @@ def calculate_length(way_nodes):
     return total_length * 0.000621371  # Convert meters to miles
 
 
-def save_kml(ways, filename="roads.kml"):
+def save_kml(ways, min_length_miles, filename="roads.kml"):
     """Save the fetched roads into a KML file."""
     kml = simplekml.Kml()
     for way in ways:
         length_in_miles = calculate_length(way.nodes)
-        if length_in_miles >= 1:  # Only include roads longer than 1 mile
+        if length_in_miles >= min_length_miles:  # Only include roads longer than the user-defined minimum length
             line = kml.newlinestring(name=way.tags.get("name", "Unnamed Road"),
                                      coords=[(node.lon, node.lat) for node in way.nodes])
             line.description = f"Track Type: {way.tags.get('tracktype', 'No data')}, Length: {length_in_miles:.2f} miles"
@@ -89,17 +89,19 @@ def main():
 
     states = fetch_states(api)
     state_names = list(states.keys())
-
     state_select = st.selectbox("Select a State:", state_names)
 
     counties = fetch_counties(api, states[state_select])
     county_names = list(counties.keys())
     county_select = st.selectbox("Select a County:", county_names)
 
+    # User input for minimum road length
+    min_length_miles = st.number_input("Enter minimum road length in miles:", min_value=0.1, value=1.0, step=0.1)
+
     if st.button("Fetch Roads"):
         roads = fetch_roads(api, counties[county_select])
         if roads:
-            kml_filename = save_kml(roads.ways, f"{county_select.replace(' ', '_').lower()}_roads.kml")
+            kml_filename = save_kml(roads.ways, min_length_miles, f"{county_select.replace(' ', '_').lower()}_roads.kml")
             st.download_button(label="Download KML", data=open(kml_filename, 'rb'), file_name=kml_filename)
 
 if __name__ == "__main__":
