@@ -27,3 +27,12 @@ To run the Unpaved Track Finder, you need to have Python installed on your machi
 2. Install the required Python libraries using pip:
    ```bash
    pip install streamlit overpy simplekml geopy
+
+### Steps to Run Locally To start the application:
+
+Navigate to the directory containing the app script.
+Run the command bash:
+`streamlit run app.py`
+The application interface will open in your default web browser.
+Follow the prompts in the user interface to select a state and county, and then fetch roads based on the selected criteria.
+Download the generated KML file to view the identified roads in any application that supports KML files, such as Google Earth.
