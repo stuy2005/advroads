@@ -82,6 +82,11 @@ def main():
     st.title("Unpaved Track Finder")
     api = overpy.Overpass()
 
+        # Disclaimer
+    st.markdown("""
+        **Disclaimer:** This application is intended for informational purposes only. Users are responsible for adhering to local laws and regulations regarding outdoor activities and land use. We do not condone illegal activities or trespassing. Always ensure that you have the proper permissions and are aware of local laws before engaging in any activities on the tracks identified by this tool.
+    """)
+
     states = fetch_states(api)
     state_names = list(states.keys())
     state_select = st.selectbox("Select a State:", state_names)
