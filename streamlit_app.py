@@ -3,7 +3,7 @@ import overpy
 import simplekml
 from geopy.distance import geodesic
 
-
+@st.cache
 def fetch_states(api):
     """Fetch a list of U.S. states that have defined boundaries in OpenStreetMap."""
     try:
@@ -18,7 +18,7 @@ def fetch_states(api):
         st.error(f"Error fetching states: {e}")
         return {}
 
-
+@st.cache
 def fetch_counties(api, state_iso):
     try:
         result = api.query(f"""
@@ -32,7 +32,7 @@ def fetch_counties(api, state_iso):
         st.error(f"Error fetching counties: {e}")
         return {}
 
-
+@st.cache
 def fetch_roads(api, area_id):
     """Fetch roads from a given area using area ID."""
     adjusted_area_id = 3600000000 + area_id  # Adjust area ID for OSM
@@ -52,7 +52,6 @@ def fetch_roads(api, area_id):
     except Exception as e:
         st.error(f"Error fetching roads: {e}")
         return None
-        
 
 def calculate_length(way_nodes):
     """Calculate the total length of a way in miles."""
@@ -63,7 +62,6 @@ def calculate_length(way_nodes):
             total_length += geodesic((previous_node.lat, previous_node.lon), (node.lat, node.lon)).meters
         previous_node = node
     return total_length * 0.000621371  # Convert meters to miles
-
 
 def save_kml(ways, min_length_miles, filename="roads.kml"):
     """Save the fetched roads into a KML file."""
@@ -82,7 +80,7 @@ def main():
     st.title("Unpaved Track Finder")
     api = overpy.Overpass()
 
-        # Disclaimer
+    # Disclaimer
     st.markdown("""
         **Disclaimer:** This application is intended for informational purposes only. Users are responsible for adhering to local laws and regulations regarding outdoor activities and land use. We do not condone illegal activities or trespassing. Always ensure that you have the proper permissions and are aware of local laws before engaging in any activities on the tracks identified by this tool.
     """)
