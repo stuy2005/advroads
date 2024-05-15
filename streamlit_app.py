@@ -46,13 +46,13 @@ def fetch_roads(api, area_id):
     >;
     out skel qt;
     """
-    st.info("Query Payload:")
-    st.code(query, language='json')
+    # st.info("Query Payload:")
+    # st.code(query, language='json')
 
     try:
         result = api.query(query)
-        st.info("Response:")
-        st.code(result, language='json')
+        # st.info("Response:")
+        # st.code(result, language='json')
         return result
     except Exception as e:
         st.error(f"Error fetching roads: {e}")
