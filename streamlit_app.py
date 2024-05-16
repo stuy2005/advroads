@@ -60,6 +60,7 @@ def fetch_roads(_api, area_id):
         way(area.a)["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
         way(area.a)["highway"]["motorcycle"~"yes|designated|destination|permissive"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
         way(area.a)["highway"]["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
+        way(area.a)["highway"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
     );
     out body;
     >;
