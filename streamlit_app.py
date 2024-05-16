@@ -48,13 +48,18 @@ def calculate_length(way_nodes):
 
 @st.cache_resource
 def fetch_roads(_api, area_id):
-    """Fetch roads from a given area using area ID."""
+    """Fetch roads from a given area using area ID, focusing on specific track types, roads accessible to motor vehicles with specific surfaces, and specialized access types for various vehicles."""
     adjusted_area_id = 3600000000 + area_id  # Adjust area ID for OSM
     query = f"""
     [out:json][timeout:90];
     (
         area({adjusted_area_id})->.a;
-        way(area.a)["highway"]["tracktype"~"grade[1-5]"];
+        way(area.a)["highway"="residential|unclassified|tertiary|secondary"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
+        way(area.a)["highway"="residential|unclassified|tertiary|secondary"]["tracktype"~"grade[1-5]"];
+        way(area.a)["tracktype"~"grade[1-5]"]["motor_vehicle"="yes"];
+        way(area.a)["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
+        way(area.a)["highway"]["motorcycle"~"yes|designated|destination|permissive"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
+        way(area.a)["highway"]["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
     );
     out body;
     >;
@@ -67,15 +72,26 @@ def fetch_roads(_api, area_id):
         st.error(f"Error fetching roads: {e}")
         return None
 
+
 def save_kml(ways, min_length_miles, filename="roads.kml"):
-    """Save the fetched roads into a KML file."""
+    """Save the fetched roads into a KML file, including detailed tags."""
     kml = simplekml.Kml()
     for way in ways:
         length_in_miles = calculate_length(way.nodes)
         if length_in_miles >= min_length_miles:  # Only include roads longer than the user-defined minimum length
             line = kml.newlinestring(name=way.tags.get("name", "Unnamed Road"),
                                      coords=[(node.lon, node.lat) for node in way.nodes])
-            line.description = f"Track Type: {way.tags.get('tracktype', 'No data')}, Length: {length_in_miles:.2f} miles"
+            # Create a description with more details
+            description = (
+                f"Name: {way.tags.get('name', 'No name')}\n"
+                f"Highway Type: {way.tags.get('highway', 'No data')}\n"
+                f"Track Type: {way.tags.get('tracktype', 'No data')}\n"
+                f"Motor Vehicle: {way.tags.get('motor_vehicle', 'No data')}\n"
+                f"Access: {way.tags.get('access', 'No data')}\n"
+                f"Surface: {way.tags.get('surface', 'No data')}\n"
+                f"Length: {length_in_miles:.2f} miles"
+            )
+            line.description = description
     kml.save(filename)
     st.success(f"KML file has been saved as '{filename}'.")
     return filename
