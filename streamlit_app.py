@@ -54,14 +54,36 @@ def fetch_roads(_api, area_id):
     [out:json][timeout:90];
     (
         area({adjusted_area_id})->.a;
-        way(area.a)["highway"~"residential|unclassified|tertiary|secondary|track"][!"motor_vehicle"="no"]["highway"!="footway"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
-        way(area.a)["highway"~"residential|unclassified|tertiary|secondary|track"][!"motor_vehicle"="no"]["highway"!="footway"]["tracktype"~"grade[1-5]"];
-        way(area.a)["tracktype"~"grade[1-5]"]["motor_vehicle"="yes"];
-        way(area.a)["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
-        way(area.a)["highway"]["motorcycle"~"yes|designated|destination|permissive"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
-        way(area.a)["highway"]["motor_vehicle"="yes"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
-        way(area.a)["highway"]["highway"!="footway"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
-        way(area.a)["highway"][!"motor_vehicle"="no"]["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
+        way(area.a)[
+            "highway"~"residential|unclassified|tertiary|secondary|track",
+            "surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"
+        ][!"motor_vehicle"="no"];
+        way(area.a)[
+            "highway"~"residential|unclassified|tertiary|secondary|track",
+            "tracktype"~"grade[1-5]"
+        ][!"motor_vehicle"="no"];
+        way(area.a)[
+            "tracktype"~"grade[1-5]",
+            "motor_vehicle"="yes"
+        ];
+        way(area.a)[
+            "motor_vehicle"="yes",
+            "surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"
+        ];
+        way(area.a)[
+            "highway",
+            "motorcycle"~"yes|designated|destination|permissive",
+            "surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"
+        ][!"motor_vehicle"="no"];
+        way(area.a)[
+            "highway",
+            "motor_vehicle"="yes",
+            "surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"
+        ];
+        way(area.a)[
+            "highway",
+            "surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"
+        ][!"motor_vehicle"="no"];
     );
     out body;
     >;
