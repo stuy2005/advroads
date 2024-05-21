@@ -81,7 +81,7 @@ def fetch_roads(_api, area_id):
             ["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"];
         way(area.a)
             ["highway"]
-            ["highway"!="footway"]
+            ["highway"!~"footway|trail"]
             ["surface"~"unpaved|wood|compacted|fine_gravel|gravel|pebblestone|grass|dirt|earth|mud|sand|ground"]
             (if:!is_tag("motor_vehicle") || t["motor_vehicle"] != "no");
     );
